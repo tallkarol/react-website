@@ -1,16 +1,26 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ProjectShowcaseModal from '../ui/ProjectShowcaseModal';
-import { projectCategories, getProjectsByCategory } from '@/data/projects';
+import { projectCategories } from '@/data/projects';
 import { ProjectDetails } from '@/types/types';
+import { dataManager } from '@/utils/dataManager';
 
 const ProjectsSection = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<ProjectDetails | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [projects, setProjects] = useState<ProjectDetails[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Load projects from dataManager instead of direct import
+  useEffect(() => {
+    const loadedProjects = dataManager.getAll<ProjectDetails>('projects');
+    setProjects(loadedProjects);
+  }, []);
   
-  // Get filtered projects from the data layer
-  const filteredProjects = getProjectsByCategory(activeCategory);
+  // Get filtered projects based on the active category
+  const filteredProjects = activeCategory === "All" 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
   
   const openProjectModal = (project: ProjectDetails) => {
     setSelectedProject(project);

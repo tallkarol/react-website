@@ -1,19 +1,33 @@
 // src/utils/dataManager.ts
 import { DataManager } from '@/types/types';
-import * as data from '@/data';
+import * as initialData from '@/data';
 
 // For now, this is a simulation of CRUD operations in memory
 // In the future, this could be connected to a backend API or local storage
 class DataManagerImpl implements DataManager {
   private cache: Record<string, any[]> = {};
+  private initialized = false;
 
   constructor() {
-    // Initialize cache with all available data
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        this.cache[key] = [...value];
-      }
-    });
+    this.initializeCache();
+  }
+
+  private initializeCache() {
+    // First, try to load from localStorage
+    this.loadFromLocalStorage();
+
+    // If we don't have data in localStorage or something failed, use the initial data
+    if (!this.initialized) {
+      Object.entries(initialData).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          this.cache[key] = JSON.parse(JSON.stringify(value)); // Deep clone to avoid reference issues
+        }
+      });
+      this.initialized = true;
+      
+      // Save to localStorage for future use
+      this.saveToLocalStorage();
+    }
   }
 
   // Generic get all items of a collection
@@ -33,6 +47,7 @@ class DataManagerImpl implements DataManager {
       this.cache[collection] = [];
     }
     this.cache[collection].push(item);
+    this.saveToLocalStorage(); // Save immediately after adding
     return item;
   }
 
@@ -51,6 +66,7 @@ class DataManagerImpl implements DataManager {
     items[index] = updatedItem;
     this.cache[collection] = items;
     
+    this.saveToLocalStorage(); // Save immediately after updating
     return updatedItem as T;
   }
 
@@ -64,61 +80,59 @@ class DataManagerImpl implements DataManager {
     items.splice(index, 1);
     this.cache[collection] = items;
     
+    this.saveToLocalStorage(); // Save immediately after removing
     return true;
   }
 
-  // Implement local storage persistence (for browser environments)
+  // Implement local storage persistence
   saveToLocalStorage(): void {
     if (typeof window !== 'undefined') {
-      Object.entries(this.cache).forEach(([key, value]) => {
-        localStorage.setItem(`data_${key}`, JSON.stringify(value));
-      });
+      try {
+        localStorage.setItem('techsynergy_data', JSON.stringify(this.cache));
+        console.log('Data saved to localStorage');
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+      }
     }
   }
 
-  // Load from local storage (for browser environments)
+  // Load from local storage
   loadFromLocalStorage(): void {
     if (typeof window !== 'undefined') {
-      Object.keys(this.cache).forEach((key) => {
-        const saved = localStorage.getItem(`data_${key}`);
-        if (saved) {
-          try {
-            this.cache[key] = JSON.parse(saved);
-          } catch (e) {
-            console.error(`Error loading ${key} from local storage:`, e);
-          }
+      try {
+        const savedData = localStorage.getItem('techsynergy_data');
+        if (savedData) {
+          this.cache = JSON.parse(savedData);
+          this.initialized = true;
+          console.log('Data loaded from localStorage');
         }
-      });
+      } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        this.initialized = false;
+      }
     }
   }
 
   // Clear local storage data
   clearLocalStorage(): void {
     if (typeof window !== 'undefined') {
-      Object.keys(this.cache).forEach((key) => {
-        localStorage.removeItem(`data_${key}`);
-      });
+      localStorage.removeItem('techsynergy_data');
+      console.log('Data cleared from localStorage');
     }
   }
 
   // Reset to original data
   resetToDefault(): void {
     this.cache = {};
-    Object.entries(data).forEach(([key, value]) => {
+    Object.entries(initialData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        this.cache[key] = [...value];
+        this.cache[key] = JSON.parse(JSON.stringify(value)); // Deep clone
       }
     });
     this.saveToLocalStorage();
+    console.log('Data reset to defaults');
   }
 }
 
 // Create singleton instance
 export const dataManager = new DataManagerImpl();
-
-// Example usage:
-// const projects = dataManager.getAll<ProjectDetails>('projects');
-// const project = dataManager.getById<ProjectDetails>('projects', 1);
-// dataManager.add('projects', newProject);
-// dataManager.update('projects', 1, { title: 'Updated Title' });
-// dataManager.remove('projects', 1);
