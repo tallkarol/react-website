@@ -21,6 +21,9 @@ const Modal = ({ isOpen, onClose, title, size = 'md', children }: ModalProps) =>
       document.addEventListener('keydown', handleEscape);
       // Prevent body scrolling when modal is open
       document.body.style.overflow = 'hidden';
+      
+      // Force the modal to be positioned at the top of the viewport
+      window.scrollTo(0, 0);
     }
     
     return () => {
@@ -50,19 +53,29 @@ const Modal = ({ isOpen, onClose, title, size = 'md', children }: ModalProps) =>
   
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-opacity duration-300 bg-brand-gradient bg-opacity-95 backdrop-blur"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-brand-gradient bg-opacity-95 backdrop-blur"
       onClick={handleBackdropClick}
-      style={{ backgroundColor: 'rgba(47, 72, 88, 0.95)' }}
+      style={{ 
+        backgroundColor: 'rgba(47, 72, 88, 0.95)',
+        // Position the modal over everything
+        zIndex: 9999
+      }}
     >
       <div 
         ref={modalRef}
-        className={`card ${sizeClasses[size]} h-[98vh] md:h-[90vh] overflow-hidden shadow-lg transform transition-all relative`}
+        className={`card ${sizeClasses[size]} h-[98vh] md:h-[90vh] shadow-lg transform transition-all relative`}
         onClick={(e) => e.stopPropagation()}
-        style={{ border: '1px solid rgba(134, 187, 216, 0.2)' }}
+        style={{ 
+          border: '1px solid rgba(134, 187, 216, 0.2)',
+          // Ensure proper overflow handling
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: '98vh'
+        }}
       >
         {/* Close button - Always visible in top right */}
         <button 
-          className="close-button"
+          className="absolute right-4 top-4 z-10 p-2 rounded-full bg-slate-800/70 text-white hover:bg-red-500 transition-colors"
           onClick={onClose}
           aria-label="Close modal"
         >
@@ -72,12 +85,12 @@ const Modal = ({ isOpen, onClose, title, size = 'md', children }: ModalProps) =>
         </button>
         
         {title && (
-          <div className="flex justify-between items-center border-b border-border-light p-6 pr-14">
+          <div className="flex justify-between items-center border-b border-border-light p-6 pr-14 flex-shrink-0">
             <h3 className="text-2xl font-bold text-text-on-dark">{title}</h3>
           </div>
         )}
         
-        <div className="overflow-y-auto h-full custom-scrollbar">
+        <div className="overflow-y-auto flex-grow custom-scrollbar">
           {children}
         </div>
       </div>

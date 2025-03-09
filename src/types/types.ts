@@ -1,65 +1,64 @@
 // Common interfaces and types used throughout the application
 import { ReactNode } from 'react';
 
-
 // For form handling
 export interface FormField {
-    name: string;
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox' | 'radio';
+  placeholder?: string;
+  required?: boolean;
+  options?: Array<{
+    value: string;
     label: string;
-    type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox' | 'radio';
-    placeholder?: string;
-    required?: boolean;
-    options?: Array<{
-      value: string;
-      label: string;
-    }>;
-  }
-  
-  // For the testimonials section
-  export interface Testimonial {
-    id: number;
-    content: string;
-    author: string;
-    position: string;
-    avatar: string;
-  }
-  
-  // For the services section
-  export interface Service {
-    id: number;
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-    features: string[];
-  }
-  
-  // For the projects section
-  export interface Project {
-    id: number;
-    title: string;
-    category: string;
-    description: string;
-    image: string;
-    technologies: string[];
-    icon: React.ReactNode;
-  }
-  
-  // For the features section
-  export interface Feature {
-    id: string;
-    title: string;
-    description: string;
-    image: string; // CSS class for background
-    type: string; // For rendering specific UI elements
-    metrics?: { name: string; value: string; percentage: number }[];
-    statistics?: {
-      servers: number;
-      loadBalancing: boolean;
-      microservices: number;
-    };
-    protections?: { name: string; active: boolean }[];
-    securityScore?: number;
-  }
+  }>;
+}
+
+// For the testimonials section
+export interface Testimonial {
+  id: number;
+  content: string;
+  author: string;
+  position: string;
+  avatar: string;
+}
+
+// For the services section
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  features: string[];
+}
+
+// For the projects section
+export interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  icon: React.ReactNode;
+}
+
+// For the features section
+export interface Feature {
+  id: string;
+  title: string;
+  description: string;
+  image: string; // CSS class for background
+  type: string; // For rendering specific UI elements
+  metrics?: { name: string; value: string; percentage: number }[];
+  statistics?: {
+    servers: number;
+    loadBalancing: boolean;
+    microservices: number;
+  };
+  protections?: { name: string; active: boolean }[];
+  securityScore?: number;
+}
 
 // Project data types
 export interface ProjectDetails {
@@ -83,24 +82,23 @@ export interface ProjectDetails {
   };
 }
 
-// Service data types
+// Updated Service data types
 export interface ServiceDetails {
   id: number;
   title: string;
   description: string;
   longDescription?: string;
-  icon: ReactNode;
-  iconType?: string; // Reference to icon type for easier manipulation
+  iconType: string; // Using iconType instead of icon for serialization
   features: string[];
   benefits: {
     title: string;
     description: string;
-    icon?: ReactNode;
+    icon?: ReactNode; // Optional icon
   }[];
   process: {
     title: string;
     description: string;
-    icon?: ReactNode;
+    icon?: ReactNode; // Optional icon
   }[];
   technologies?: string[];
   caseStudies?: {
@@ -112,23 +110,6 @@ export interface ServiceDetails {
     question: string;
     answer: string;
   }[];
-}
-
-// Testimonial data type
-export interface Testimonial {
-  id: number;
-  content: string;
-  author: string;
-  position: string;
-  avatar: string;
-}
-
-// Feature data type
-export interface Feature {
-  id: string;
-  title: string;
-  description: string;
-  image: ReactNode;
 }
 
 // You could add more shared types here as needed
