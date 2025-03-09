@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
-import Header from './components/Header'
-import HeroSection from './components/HeroSection'
-import ServicesSection from './components/ServicesSection'
-import FeaturesSection from './components/FeaturesSection'
-import ProjectsSection from './components/ProjectsSection'
-import TestimonialsSection from './components/TestimonialsSection'
-import ContactSection from './components/ContactSection'
-import Footer from './components/Footer'
-import CustomCursor from './components/CustomCursor'
+import Header from '@components/layout/Header'
+import Footer from '@components/layout/Footer'
+import HeroSection from '@components/sections/HeroSection'
+import ServicesSection from '@components/sections/ServicesSection'
+import FeaturesSection from '@components/sections/FeaturesSection'
+import ProjectsSection from '@components/sections/ProjectsSection'
+import TestimonialsSection from '@components/sections/TestimonialsSection'
+import ContactSection from '@components/sections/ContactSection'
+import CustomCursor from '@components/ui/CustomCursor'
 
 // Loader component for page transitions
 const Loader = () => {
