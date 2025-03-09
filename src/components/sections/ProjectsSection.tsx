@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProjectShowcaseModal from '../ui/ProjectShowcaseModal';
 import { projectCategories } from '@/data/projects';
@@ -11,7 +11,7 @@ const ProjectsSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState<ProjectDetails[]>([]);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
-  const categoriesRef = useRef<HTMLDivElement>(null);
+  // const categoriesRef = useRef<HTMLDivElement>(null);
 
   // Load projects from dataManager instead of direct import
   useEffect(() => {
@@ -31,18 +31,6 @@ const ProjectsSection = () => {
 
   const closeProjectModal = () => {
     setIsModalOpen(false);
-  };
-  
-  const scrollLeft = () => {
-    if (categoriesRef.current) {
-      categoriesRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
-  };
-  
-  const scrollRight = () => {
-    if (categoriesRef.current) {
-      categoriesRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
   };
 
   // Helper function to get icon based on category
