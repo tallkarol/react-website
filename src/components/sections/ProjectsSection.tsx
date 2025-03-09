@@ -3,6 +3,7 @@ import ProjectShowcaseModal, { ProjectDetails } from '../ui/ProjectShowcaseModal
 
 // Sample project data
 const projects: ProjectDetails[] = [
+  // Project data remains the same but is omitted for brevity
   {
     id: 1,
     title: "AI-Powered Customer Dashboard",
@@ -149,11 +150,26 @@ const ProjectsSection = () => {
   };
   
   return (
-    <section id="projects" className="py-20 bg-slate-800">
-      <div className="container mx-auto px-4">
+    <section 
+      id="projects" 
+      style={{
+        background: 'var(--gradient-dark)',
+        paddingTop: 'var(--section-spacing-y)',
+        paddingBottom: 'var(--section-spacing-y)'
+      }}
+    >
+      <div className="container mx-auto px-4" style={{ maxWidth: 'var(--content-max-width)' }}>
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Our Projects</h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <h2 
+            className="text-3xl md:text-4xl font-bold mb-4"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Our Projects
+          </h2>
+          <p 
+            className="text-xl max-w-2xl mx-auto"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             Innovative solutions that deliver real-world results
           </p>
         </div>
@@ -163,15 +179,19 @@ const ProjectsSection = () => {
           <div 
             className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide"
             ref={scrollContainerRef}
+            style={{ gap: 'var(--grid-gap-sm)' }}
           >
             {categories.map((category) => (
               <button
                 key={category}
-                className={`px-6 py-2 rounded-full whitespace-nowrap transition-all duration-300 ${
-                  activeCategory === category 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
-                }`}
+                style={{
+                  backgroundColor: activeCategory === category ? 'var(--primary)' : 'rgba(255, 255, 255, 0.1)',
+                  color: 'var(--text-primary)',
+                  borderRadius: 'var(--button-radius)',
+                  padding: 'var(--button-padding)',
+                  transition: 'var(--button-transition)',
+                  whiteSpace: 'nowrap'
+                }}
                 onClick={() => setActiveCategory(category)}
               >
                 {category}
@@ -182,7 +202,22 @@ const ProjectsSection = () => {
           {/* Scroll buttons */}
           <button 
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-slate-900/70 backdrop-blur-sm p-2 rounded-full text-white shadow-lg z-10 hidden md:block"
+            style={{
+              position: 'absolute',
+              left: '0',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              backgroundColor: 'rgba(30, 30, 30, 0.7)',
+              color: 'var(--text-primary)',
+              borderRadius: '9999px',
+              padding: '0.5rem',
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backdropFilter: 'blur(4px)',
+              zIndex: 'var(--z-index-base)'
+            }}
+            className="md:flex"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -190,7 +225,22 @@ const ProjectsSection = () => {
           </button>
           <button 
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-slate-900/70 backdrop-blur-sm p-2 rounded-full text-white shadow-lg z-10 hidden md:block"
+            style={{
+              position: 'absolute',
+              right: '0',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              backgroundColor: 'rgba(30, 30, 30, 0.7)',
+              color: 'var(--text-primary)',
+              borderRadius: '9999px',
+              padding: '0.5rem',
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backdropFilter: 'blur(4px)',
+              zIndex: 'var(--z-index-base)'
+            }}
+            className="md:flex"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -199,15 +249,37 @@ const ProjectsSection = () => {
         </div>
         
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8" style={{ gap: 'var(--grid-gap)' }}>
           {filteredProjects.map((project) => (
             <div 
               key={project.id}
-              className="bg-slate-900/50 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 border border-slate-700/50 group"
+              className="overflow-hidden transition-all duration-300 hover:shadow-lg group"
+              style={{
+                backgroundColor: 'var(--card-bg)',
+                borderRadius: 'var(--radius-lg)',
+                border: 'var(--card-border)',
+                transition: 'var(--button-transition)'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'var(--card-hover-transform)';
+                e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                e.currentTarget.style.borderColor = 'var(--primary)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.borderColor = 'var(--dark-border)';
+              }}
             >
               <div className={`p-8 ${project.image} backdrop-blur-sm`}>
                 <div className="flex justify-between items-start">
-                  <div className="bg-white/10 backdrop-blur-sm p-3 rounded-lg text-white">
+                  <div style={{
+                    backgroundColor: 'var(--dark-surface)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '0.75rem',
+                    borderRadius: 'var(--radius-md)',
+                    color: 'var(--text-primary)'
+                  }}>
                     {/* Icon based on category */}
                     {project.category === "Artificial Intelligence" && (
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -231,29 +303,66 @@ const ProjectsSection = () => {
                       </svg>
                     )}
                   </div>
-                  <span className="bg-slate-900/50 backdrop-blur-sm px-4 py-1 rounded-full text-xs font-medium text-gray-300">
+                  <span style={{
+                    backgroundColor: 'var(--dark-surface)',
+                    backdropFilter: 'blur(8px)',
+                    padding: '0.25rem 1rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.75rem',
+                    fontWeight: '500',
+                    color: 'var(--text-secondary)'
+                  }}>
                     {project.category}
                   </span>
                 </div>
               </div>
               
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
-                <p className="text-gray-300 mb-6">{project.description}</p>
+                <h3 
+                  className="text-2xl font-bold mb-3"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  {project.title}
+                </h3>
+                <p 
+                  className="mb-6"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  {project.description}
+                </p>
                 
                 <div className="mb-6">
-                  <h4 className="text-gray-400 text-sm mb-2">Technologies</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 
+                    className="text-sm mb-2"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    Technologies
+                  </h4>
+                  <div className="flex flex-wrap gap-2" style={{ gap: 'var(--space-2)' }}>
                     {project.technologies.slice(0, 4).map((tech, index) => (
                       <span 
                         key={index} 
-                        className="bg-slate-800 text-gray-300 px-3 py-1 rounded-full text-xs"
+                        style={{
+                          backgroundColor: 'var(--icon-bg-default)',
+                          color: 'var(--primary)',
+                          padding: '0.25rem 0.75rem',
+                          borderRadius: 'var(--radius-full)',
+                          fontSize: '0.75rem'
+                        }}
                       >
                         {tech}
                       </span>
                     ))}
                     {project.technologies.length > 4 && (
-                      <span className="bg-slate-800 text-gray-300 px-3 py-1 rounded-full text-xs">
+                      <span 
+                        style={{
+                          backgroundColor: 'var(--icon-bg-default)',
+                          color: 'var(--primary)',
+                          padding: '0.25rem 0.75rem',
+                          borderRadius: 'var(--radius-full)',
+                          fontSize: '0.75rem'
+                        }}
+                      >
                         +{project.technologies.length - 4} more
                       </span>
                     )}
@@ -262,10 +371,35 @@ const ProjectsSection = () => {
                 
                 <button 
                   onClick={() => openProjectModal(project)}
-                  className="inline-flex items-center text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300"
+                  className="inline-flex items-center"
+                  style={{ 
+                    color: 'var(--primary)',
+                    transition: 'var(--button-transition)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--accent)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--primary)';
+                  }}
                 >
                   <span>View Case Study</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor" 
+                    className="w-5 h-5 ml-2 transition-transform duration-300"
+                    style={{
+                      transform: 'translateX(0)',
+                      transition: 'var(--transition-normal)'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                  >
                     <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
                   </svg>
                 </button>
@@ -278,7 +412,24 @@ const ProjectsSection = () => {
         <div className="mt-16 text-center">
           <a 
             href="#contact" 
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full inline-flex items-center transition-all duration-300 btn-hover-effect"
+            style={{
+              backgroundColor: 'var(--accent)',
+              color: 'var(--text-primary)',
+              borderRadius: 'var(--button-radius)',
+              padding: 'var(--button-padding)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              transition: 'var(--button-transition)'
+            }}
+            className="inline-flex items-center px-8 py-3"
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'var(--button-hover-transform)';
+              e.currentTarget.style.backgroundColor = 'var(--accent-hover)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'none';
+              e.currentTarget.style.backgroundColor = 'var(--accent)';
+            }}
           >
             <span>Start Your Project</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">

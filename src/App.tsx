@@ -8,6 +8,7 @@ import ProjectsSection from '@components/sections/ProjectsSection'
 import TestimonialsSection from '@components/sections/TestimonialsSection'
 import ContactSection from '@components/sections/ContactSection'
 import CustomCursor from '@components/ui/CustomCursor'
+import GlobalStyles from '@components/ui/GlobalStyles'
 
 // Loader component for page transitions
 const Loader = () => {
@@ -65,6 +66,29 @@ function App() {
     
     window.addEventListener('scroll', revealOnScroll)
     
+    // Apply styles to buttons using CSS variables
+    const applyButtonStyles = () => {
+      // Add custom classes to buttons
+      const buttons = document.querySelectorAll('button:not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-accent):not(.close-button):not(.btn-icon)')
+      buttons.forEach(button => {
+        if (button.className.includes('bg-indigo-600') || button.className.includes('bg-indigo-700')) {
+          button.classList.add('btn', 'btn-primary')
+        } else if (button.className.includes('border') && button.className.includes('text-white')) {
+          button.classList.add('btn', 'btn-outline')
+        }
+      })
+
+      // Apply hover styles to nav links
+      const navLinks = document.querySelectorAll('nav a')
+      navLinks.forEach(link => {
+        link.classList.add('nav-link')
+      })
+    }
+
+    // Run once on load and after a slight delay to ensure all components are mounted
+    applyButtonStyles()
+    setTimeout(applyButtonStyles, 500)
+    
     // Initial check
     revealOnScroll()
     
@@ -75,6 +99,9 @@ function App() {
   
   return (
     <>
+      {/* Global Styles for consistency */}
+      <GlobalStyles />
+      
       {/* Custom Cursor */}
       <CustomCursor />
       
@@ -101,7 +128,7 @@ function App() {
         {/* Back to top button */}
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed right-8 bottom-8 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 z-20 opacity-0 invisible"
+          className="fixed right-8 bottom-8 bg-primary text-text-on-dark btn-icon shadow-lg transition-all duration-300 z-20 opacity-0 invisible"
           id="back-to-top"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">

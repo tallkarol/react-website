@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Base element styling */
 body, #root {
   margin: 0;
   width: 100%;
@@ -8,126 +9,200 @@ body, #root {
   flex-direction: column;
 }
 
-/* styles.css */
-
-/* Brand Colors */
 :root {
-  --lapis-lazuli: #336699;
-  --carolina-blue: #86bbd8;
-  --charcoal: #2f4858;
-  --light-green: #9ee493;
-  --nyanza: #daf7dc;
+  /* Primary Colors */
+  --primary: #4f46e5;         /* Indigo - bold and modern */
+  --primary-hover: #4338ca;   /* Slightly deeper indigo for hover states */
+  --primary-light: #eef2ff;   /* Very light indigo for backgrounds */
+
+  /* Secondary Colors */
+  --secondary: #06b6d4;       /* Cyan - bright and futuristic */
+  --secondary-light: #cffafe; /* Lighter cyan for accents */
+
+  /* Accent Colors */
+  --accent: #ec4899;          /* Vibrant pink for energetic highlights */
+  --accent-hover: #db2777;    /* Darker pink for hover states */
+
+  /* Neutrals - Monochromatic dark theme */
+  --dark: #111827;            /* Dark gray, near-black for main background */
+  --dark-surface: #1f2937;    /* Slightly lighter gray for cards/surfaces */
+  --dark-hover: #374151;      /* Even lighter gray for hover states */
+  --dark-border: #4b5563;     /* For borders and dividers */
+
+  /* Text Colors */
+  --text-primary: #ffffff;    /* White text for strong contrast */
+  --text-secondary: #d1d5db;  /* Light gray for secondary text */
+  --text-muted: #9ca3af;      /* More muted gray for less emphasis */
+
+  /* Feedback Colors */
+  --success: #10b981;         /* Calming green for success */
+  --warning: #f59e0b;         /* Vibrant amber for warning */
+  --error: #ef4444;           /* Bold red for error */
+  --info: #3b82f6;            /* Bright blue for info */
   
-  /* Semantic colors */
-  --primary: var(--lapis-lazuli);
-  --primary-hover: #2a5580;
-  --primary-light: rgba(51, 102, 153, 0.2);
-  --secondary: var(--carolina-blue);
-  --secondary-hover: #6ba9c6;
-  --accent: var(--light-green);
-  --accent-hover: #8fd087;
-  --background-dark: var(--charcoal);
-  --background-light: var(--nyanza);
-  --text-on-dark: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.7);
-  --border-light: rgba(255, 255, 255, 0.1);
-  --success: #4ade80;
-  --error: #f87171;
+  /* Spacing System */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
   
-  /* Border radiuses */
+  /* Border System */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 1rem;
   --radius-full: 9999px;
   
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
+  /* Shadow System */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Transition System */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* ===== BACKGROUND PATTERNS ===== */
   
-  /* Transitions */
-  --transition-fast: 150ms;
-  --transition-normal: 300ms;
-  --transition-slow: 500ms;
+  /* Gradient Backgrounds */
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+  --gradient-dark: linear-gradient(to bottom, var(--dark), var(--dark-surface));
+  
+  /* Background Patterns */
+  --pattern-dots: radial-gradient(rgba(67, 97, 238, 0.3) 1px, transparent 1px);
+  --pattern-grid-size: 30px;
+  
+  /* Overlay Effects */
+  --overlay-dark: linear-gradient(to right, rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.6));
+  --overlay-accent: radial-gradient(circle at top right, rgba(114, 9, 183, 0.2), transparent 50%);
+  --overlay-primary: radial-gradient(circle at bottom left, rgba(67, 97, 238, 0.15), transparent 50%);
+  
+  /* ===== COMPONENT STYLES ===== */
+  
+  /* Cards */
+  --card-padding: 2rem;
+  --card-border: 1px solid var(--dark-border);
+  --card-bg: var(--dark-surface);
+  --card-hover-transform: translateY(-4px);
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --card-hover-border: 1px solid var(--primary);
+  
+  /* Buttons */
+  --button-padding: 0.625rem 1.25rem;
+  --button-radius: var(--radius-md);
+  --button-transition: all var(--transition-normal);
+  --button-hover-transform: translateY(-2px);
+  
+  /* Icons */
+  --icon-bg-size: 3rem;
+  --icon-bg-hover: var(--primary);
+  --icon-bg-default: rgba(67, 97, 238, 0.1);
+  --icon-color-hover: var(--text-primary);
+  --icon-color-default: var(--primary);
+  
+  /* ===== ANIMATION PATTERNS ===== */
+  
+  /* Transform Patterns */
+  --hover-lift: translateY(-2px);
+  --hover-scale: scale(1.05);
+  --active-press: translateY(1px);
+  
+  /* Animation Keyframes Patterns (defined in actual @keyframes separately) */
+  --animation-fade-in: fadeIn 0.5s ease forwards;
+  --animation-slide-in: slideIn 0.3s ease forwards;
+  --animation-pulse: pulse 3s infinite alternate;
+  --animation-float: float 3s ease-in-out infinite;
+  
+  /* ===== LAYOUT & SPACING ===== */
+  
+  /* Section Spacing */
+  --section-spacing-y: 5rem;
+  --section-spacing-x: 1rem;
+  
+  /* Content Widths */
+  --content-max-width: 1200px;
+  --content-narrow-width: 768px;
+  
+  /* Grid Settings */
+  --grid-gap: 2rem;
+  --grid-gap-sm: 1rem;
+  --grid-gap-lg: 3rem;
+  
+  /* Z-index Layers */
+  --z-index-base: 1;
+  --z-index-header: 50;
+  --z-index-modal: 100;
+  --z-index-tooltip: 200;
 }
 
-/* Utility Classes */
+/* ======= Simplified Component Classes ======= */
+
+/* Button System */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
-  border-radius: var(--radius-full);
-  transition: all var(--transition-normal);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 1.25rem;
+  transition: background-color var(--transition-normal), transform var(--transition-normal);
   cursor: pointer;
-  padding: 0.6rem 1.2rem;
+  letter-spacing: 0.01em;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
 }
 
 .btn-primary {
   background-color: var(--primary);
-  color: var(--text-on-dark);
+  color: var(--text-primary);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
 }
 
-.btn-outline {
-  background-color: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-on-dark);
+.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--text-primary);
 }
 
-.btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.btn-secondary:hover {
+  background-color: var(--secondary-light);
 }
 
 .btn-accent {
   background-color: var(--accent);
-  color: var(--charcoal);
+  color: var(--text-primary);
 }
 
 .btn-accent:hover {
   background-color: var(--accent-hover);
 }
 
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-full);
-  padding: 0.5rem;
-  transition: all var(--transition-fast);
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--dark-border);
 }
 
-.badge {
-  display: inline-block;
-  border-radius: var(--radius-full);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+.btn-outline:hover {
+  border-color: var(--primary);
+  background-color: rgba(67, 97, 238, 0.1);
 }
 
-.badge-primary {
-  background-color: var(--primary-light);
-  color: var(--primary);
-}
-
-/* Card styles */
+/* Card System */
 .card {
-  background-color: rgba(47, 72, 88, 0.8);
-  border: 1px solid var(--border-light);
+  background-color: var(--dark-surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  border: 1px solid var(--dark-border);
 }
 
 .card:hover {
@@ -135,104 +210,197 @@ body, #root {
   box-shadow: var(--shadow-lg);
 }
 
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(47, 72, 88, 0.2);
-  border-radius: var(--radius-full);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(51, 102, 153, 0.5);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(51, 102, 153, 0.8);
-}
-
-/* Modal animations */
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes modalFadeOut {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: 0; transform: scale(0.95); }
-}
-
-.modal-enter {
-  animation: modalFadeIn 0.2s forwards ease-out;
-}
-
-.modal-exit {
-  animation: modalFadeOut 0.2s forwards ease-in;
-}
-
-/* Background gradients */
-.bg-brand-gradient {
-  background: linear-gradient(135deg, var(--charcoal) 0%, var(--lapis-lazuli) 100%);
-}
-
-.bg-accent-gradient {
-  background: linear-gradient(135deg, var(--lapis-lazuli) 0%, var(--carolina-blue) 100%);
-}
-
-/* Text styles */
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-on-dark);
-  margin-bottom: 1rem;
-}
-
-.section-subtitle {
-  font-size: 1.125rem;
-  color: var(--text-muted);
-  max-width: 32rem;
-  margin: 0 auto;
-}
-
-/* Backdrop blur */
-.backdrop-blur {
-  backdrop-filter: blur(10px);
-}
-
-/* Icon backgrounds */
-.icon-bg {
-  display: flex;
+/* Badge System */
+.badge {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: var(--primary-light);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.badge-primary {
+  background-color: rgba(67, 97, 238, 0.15);
   color: var(--primary);
 }
 
-.close-button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background-color: var(--background-dark);
-  color: var(--text-on-dark);
-  border-radius: var(--radius-full);
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-  z-index: 50;
-  border: 1px solid var(--border-light);
+.badge-secondary {
+  background-color: rgba(114, 9, 183, 0.15);
+  color: var(--secondary-light);
 }
 
-.close-button:hover {
-  background-color: var(--primary);
+.badge-accent {
+  background-color: rgba(247, 37, 133, 0.15);
+  color: var(--accent);
 }
+
+/* Navigation Link */
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color var(--transition-normal);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: A3px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary);
+  transition: width var(--transition-normal);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+}
+
+/* Form Inputs */
+.form-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--dark-border);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  transition: border-color var(--transition-normal), background-color var(--transition-normal);
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--dark-surface);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--dark-border);
+  border-radius: var(--radius-full);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animation Utilities */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Simplified Gradient Backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark-surface) 100%);
+}
+
+/* Text Helpers */
+.section-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.125rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* These animations should be added to styles.css after the variables */
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.1; transform: scale(0.95); }
+  50% { opacity: 0.2; transform: scale(1); }
+  100% { opacity: 0.1; transform: scale(0.95); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Additional Utility Classes */
+.fade-in {
+  animation: var(--animation-fade-in);
+}
+
+.slide-in {
+  animation: var(--animation-slide-in);
+}
+
+.slide-in-delay-1 {
+  animation: var(--animation-slide-in);
+  animation-delay: 0.1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.slide-in-delay-2 {
+  animation: var(--animation-slide-in);
+  animation-delay: 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.slide-in-delay-3 {
+  animation: var(--animation-slide-in);
+  animation-delay: 0.3s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.pulse {
+  animation: var(--animation-pulse);
+}
+
+.float {
+  animation: var(--animation-float);
+}
+

@@ -22,15 +22,19 @@ const Header = () => {
     <header 
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-slate-900/90 backdrop-blur-md shadow-lg py-2' 
-          : 'bg-transparent py-4'
+          ? 'bg-dark-surface backdrop-blur-md shadow-lg py-3' 
+          : 'bg-transparent py-5'
       }`}
+      style={{
+        backgroundColor: scrolled ? 'var(--dark-surface)' : 'transparent',
+        boxShadow: scrolled ? 'var(--shadow-md)' : 'none'
+      }}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="text-indigo-500 text-2xl font-bold mr-2">
+            <div className="text-primary text-2xl font-bold mr-2" style={{ color: 'var(--primary)' }}>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" 
@@ -43,8 +47,8 @@ const Header = () => {
                   clipRule="evenodd" 
                 />
               </svg>
-              <span className="text-white">Tech</span>
-              <span className="text-sky-400">Synergy</span>
+              <span className="text-text-primary">Tech</span>
+              <span className="text-accent" style={{ color: 'var(--accent)' }}>Synergy</span>
             </div>
           </div>
 
@@ -55,7 +59,7 @@ const Header = () => {
                 <li key={item}>
                   <a 
                     href={`#${item.toLowerCase()}`} 
-                    className="text-white opacity-80 hover:opacity-100 hover:text-sky-400 transition-all duration-300"
+                    className="nav-link"
                   >
                     {item}
                   </a>
@@ -66,7 +70,7 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full transition-all duration-300 btn-hover-effect">
+            <button className="btn btn-accent">
               Get Started
             </button>
           </div>
@@ -75,7 +79,8 @@ const Header = () => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white"
+              className="text-text-primary" 
+              style={{ color: 'var(--text-primary)' }}
             >
               {mobileMenuOpen ? (
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -92,21 +97,21 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 slide-in">
+          <nav className="md:hidden mt-4 pb-4 slide-in bg-dark-surface rounded-lg p-4 shadow-lg" style={{ backgroundColor: 'var(--dark-surface)' }}>
             <ul className="flex flex-col space-y-4">
               {['Services', 'Projects', 'About', 'Technology', 'Contact'].map((item, i) => (
                 <li key={item} className={`slide-in-delay-${i % 3 + 1}`}>
                   <a 
                     href={`#${item.toLowerCase()}`} 
-                    className="text-white block opacity-80 hover:opacity-100 hover:text-sky-400 transition-all duration-300"
+                    className="nav-link block"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
                   </a>
                 </li>
               ))}
-              <li className="slide-in-delay-3">
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full w-full transition-all duration-300 btn-hover-effect">
+              <li className="slide-in-delay-3 pt-2">
+                <button className="btn btn-accent w-full">
                   Get Started
                 </button>
               </li>
