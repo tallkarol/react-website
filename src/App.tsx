@@ -9,6 +9,7 @@ import TestimonialsSection from '@components/sections/TestimonialsSection'
 import ContactSection from '@components/sections/ContactSection'
 import CustomCursor from '@components/ui/CustomCursor'
 import GlobalStyles from '@components/ui/GlobalStyles'
+import AdminLink from '@components/admin/AdminLink'
 
 // Loader component for page transitions
 const Loader = () => {
@@ -155,6 +156,9 @@ function App() {
             });
           `
         }} />
+        
+        {/* Admin Link - only appears in development */}
+        <AdminLink />
       </div>
     </>
   )
