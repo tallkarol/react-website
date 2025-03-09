@@ -49,7 +49,16 @@ export interface FormField {
     id: string;
     title: string;
     description: string;
-    image: React.ReactNode;
+    image: string; // CSS class for background
+    type: string; // For rendering specific UI elements
+    metrics?: { name: string; value: string; percentage: number }[];
+    statistics?: {
+      servers: number;
+      loadBalancing: boolean;
+      microservices: number;
+    };
+    protections?: { name: string; active: boolean }[];
+    securityScore?: number;
   }
 
 // Project data types
