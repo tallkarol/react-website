@@ -50,17 +50,19 @@ const Modal = ({ isOpen, onClose, title, size = 'md', children }: ModalProps) =>
   
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-opacity duration-300 bg-slate-900/95 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-opacity duration-300 bg-brand-gradient bg-opacity-95 backdrop-blur"
       onClick={handleBackdropClick}
+      style={{ backgroundColor: 'rgba(47, 72, 88, 0.95)' }}
     >
       <div 
         ref={modalRef}
-        className={`bg-slate-800 border border-slate-700 rounded-2xl ${sizeClasses[size]} h-[98vh] md:h-[90vh] overflow-hidden shadow-2xl transform transition-all relative`}
+        className={`card ${sizeClasses[size]} h-[98vh] md:h-[90vh] overflow-hidden shadow-lg transform transition-all relative`}
         onClick={(e) => e.stopPropagation()}
+        style={{ border: '1px solid rgba(134, 187, 216, 0.2)' }}
       >
         {/* Close button - Always visible in top right */}
         <button 
-          className="absolute top-3 right-3 z-50 bg-slate-700 hover:bg-slate-600 text-white rounded-full p-2 transition-colors shadow-lg"
+          className="close-button"
           onClick={onClose}
           aria-label="Close modal"
         >
@@ -70,8 +72,8 @@ const Modal = ({ isOpen, onClose, title, size = 'md', children }: ModalProps) =>
         </button>
         
         {title && (
-          <div className="flex justify-between items-center border-b border-slate-700 p-6 pr-14">
-            <h3 className="text-2xl font-bold text-white">{title}</h3>
+          <div className="flex justify-between items-center border-b border-border-light p-6 pr-14">
+            <h3 className="text-2xl font-bold text-text-on-dark">{title}</h3>
           </div>
         )}
         
