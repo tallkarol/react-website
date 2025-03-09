@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Modal from './Modal';
 
 // Service data interface
@@ -37,199 +38,409 @@ interface ServiceDetailsModalProps {
 }
 
 const ServiceDetailsModal = ({ isOpen, onClose, service }: ServiceDetailsModalProps) => {
+  const [activeTab, setActiveTab] = useState<'overview' | 'benefits' | 'process' | 'tech' | 'cases' | 'faq'>('overview');
+  
+  // Show tabs only if we have content for them
+  const showBenefitsTab = service.benefits && service.benefits.length > 0;
+  const showProcessTab = service.process && service.process.length > 0;
+  const showTechTab = service.technologies && service.technologies.length > 0;
+  const showCasesTab = service.caseStudies && service.caseStudies.length > 0;
+  const showFaqTab = service.faq && service.faq.length > 0;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
-      <div className="p-6 md:p-8 custom-scrollbar">
+      <div className="flex flex-col h-full">
         {/* Service Header */}
-        <div className="flex flex-col md:flex-row md:items-start gap-4 mb-10">
-          <div className="bg-indigo-500/20 p-4 rounded-lg text-indigo-400 shrink-0">
-            {service.icon}
-          </div>
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">{service.title}</h2>
-            <p className="text-gray-300 leading-relaxed">{service.longDescription || service.description}</p>
+        <div className="bg-brand-gradient p-6 md:p-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg text-white shrink-0">
+              {service.icon}
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{service.title}</h2>
+              <p className="text-text-muted leading-relaxed">{service.description}</p>
+            </div>
           </div>
         </div>
         
-        {/* Two-column layout for larger screens */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Left column */}
-          <div>
-            {/* Key Features */}
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path fillRule="evenodd" d="M2 3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5v11.75A2.75 2.75 0 0 0 16.75 18h-12A2.75 2.75 0 0 1 2 15.25V3.5Zm3.75 7a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5Zm0-3a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5ZM9 6.25a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h3.5A.75.75 0 0 0 9 6.25Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                Key Features
-              </h3>
-              <div className="space-y-3 bg-slate-700/30 p-4 rounded-lg">
-                {service.features.map((feature, index) => (
-                  <div key={index} className="flex items-start">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mr-2 text-green-400 shrink-0 mt-0.5">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-300">{feature}</span>
-                  </div>
-                ))}
-              </div>
+        {/* Tabbed Navigation */}
+        <div className="bg-background-dark border-b border-border-light">
+          <div className="container mx-auto px-4">
+            <div className="flex overflow-x-auto space-x-2 py-2 custom-scrollbar">
+              <button
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === 'overview' 
+                    ? 'bg-primary text-white' 
+                    : 'hover:bg-primary-light/50 text-text-muted'
+                }`}
+                onClick={() => setActiveTab('overview')}
+              >
+                Overview
+              </button>
+              
+              {showBenefitsTab && (
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeTab === 'benefits' 
+                      ? 'bg-primary text-white' 
+                      : 'hover:bg-primary-light/50 text-text-muted'
+                  }`}
+                  onClick={() => setActiveTab('benefits')}
+                >
+                  Benefits
+                </button>
+              )}
+              
+              {showProcessTab && (
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeTab === 'process' 
+                      ? 'bg-primary text-white' 
+                      : 'hover:bg-primary-light/50 text-text-muted'
+                  }`}
+                  onClick={() => setActiveTab('process')}
+                >
+                  Our Process
+                </button>
+              )}
+              
+              {showTechTab && (
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeTab === 'tech' 
+                      ? 'bg-primary text-white' 
+                      : 'hover:bg-primary-light/50 text-text-muted'
+                  }`}
+                  onClick={() => setActiveTab('tech')}
+                >
+                  Technologies
+                </button>
+              )}
+              
+              {showCasesTab && (
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeTab === 'cases' 
+                      ? 'bg-primary text-white' 
+                      : 'hover:bg-primary-light/50 text-text-muted'
+                  }`}
+                  onClick={() => setActiveTab('cases')}
+                >
+                  Case Studies
+                </button>
+              )}
+              
+              {showFaqTab && (
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    activeTab === 'faq' 
+                      ? 'bg-primary text-white' 
+                      : 'hover:bg-primary-light/50 text-text-muted'
+                  }`}
+                  onClick={() => setActiveTab('faq')}
+                >
+                  FAQ
+                </button>
+              )}
             </div>
-            
-            {/* Benefits */}
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                Benefits
-              </h3>
-              <div className="space-y-4">
-                {service.benefits.map((benefit, index) => (
-                  <div key={index} className="bg-slate-700/30 rounded-lg p-4 border-l-2 border-indigo-500">
-                    <div className="flex items-center mb-2">
-                      {benefit.icon || (
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mr-2 text-indigo-400">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                      <h4 className="text-white font-medium">{benefit.title}</h4>
+          </div>
+        </div>
+        
+        {/* Tab Content */}
+        <div className="flex-grow overflow-y-auto p-6 md:p-8 custom-scrollbar">
+          {/* Overview Tab */}
+          {activeTab === 'overview' && (
+            <div className="max-w-5xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-text-on-dark mb-4">About this Service</h3>
+                  <p className="text-text-muted mb-6">{service.longDescription || service.description}</p>
+                  
+                  <h3 className="text-xl font-semibold text-text-on-dark mb-4">Key Features</h3>
+                  <div className="bg-primary-light/10 p-5 rounded-lg border border-primary-light/20">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {service.features.map((feature, index) => (
+                        <div key={index} className="flex items-start">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mr-2 text-success shrink-0 mt-0.5">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-text-muted">{feature}</span>
+                        </div>
+                      ))}
                     </div>
-                    <p className="text-gray-300 text-sm">{benefit.description}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Technologies if available */}
-            {service.technologies && (
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                      <path fillRule="evenodd" d="M17.988 12.246A1 1 0 0 0 17 11.337l-3.468-1.09a7.017 7.017 0 0 1-2.033 2.034l1.09 3.468a1 1 0 0 0 1.857 0l1.642-4.176 1.9 1.9a1 1 0 0 0 1.414-1.414l-1.9-1.9 4.176-1.642a1 1 0 0 0 .909.989ZM7.042 16.34a1 1 0 0 0 1.857 0l1.09-3.468a7.017 7.017 0 0 1-2.033-2.034l-3.468 1.09a1 1 0 0 0 0 1.857l4.176 1.641-1.9 1.9a1 1 0 1 0 1.414 1.415l1.9-1.9 1.641 4.176ZM8.66 2.046a1 1 0 0 0-1.857 0L5.713 5.514a7.017 7.017 0 0 1 2.033 2.034l3.468-1.09a1 1 0 0 0 0-1.857l-4.176-1.642 1.9-1.9a1 1 0 0 0-1.414-1.414l-1.9 1.9L3.983 1.37a1 1 0 0 0-.989-.909Zm8.664 6.266a1 1 0 0 0 0-1.857l-3.468-1.09a7.017 7.017 0 0 1-2.034 2.033l1.09 3.468a1 1 0 0 0 1.857 0l1.642-4.176 1.9 1.9a1 1 0 0 0 1.414-1.414l-1.9-1.9 4.176-1.642a1 1 0 0 0 .909.989Z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                  Technologies We Use
-                </h3>
-                <div className="bg-slate-700/30 p-4 rounded-lg">
-                  <div className="flex flex-wrap gap-2">
-                    {service.technologies.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="bg-slate-700 text-gray-300 px-3 py-1 rounded-full text-sm"
+                </div>
+                
+                <div className="flex flex-col">
+                  {/* Highlight Cards */}
+                  <div className="bg-accent-gradient p-6 rounded-lg text-text-on-dark mb-4">
+                    <h3 className="text-xl font-bold mb-2">Why Choose Our {service.title}?</h3>
+                    <p className="text-text-on-dark/80">Our approach combines industry expertise with cutting-edge technology to deliver solutions that drive real business results.</p>
+                  </div>
+                  
+                  {service.benefits && service.benefits.length > 0 && (
+                    <div className="p-6 rounded-lg bg-background-dark border border-border-light">
+                      <h3 className="text-lg font-semibold text-text-on-dark mb-3">Top Benefits</h3>
+                      <div className="space-y-3">
+                        {service.benefits.slice(0, 3).map((benefit, index) => (
+                          <div key={index} className="flex items-start">
+                            <span className="bg-primary-light rounded-full w-6 h-6 flex items-center justify-center text-primary shrink-0 mr-2">
+                              {index + 1}
+                            </span>
+                            <div>
+                              <span className="text-text-on-dark font-medium">{benefit.title}</span>
+                              {index === 0 && (
+                                <p className="text-text-muted text-sm mt-1">{benefit.description}</p>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      {service.benefits.length > 3 && (
+                        <button 
+                          className="text-primary text-sm mt-3 flex items-center"
+                          onClick={() => setActiveTab('benefits')}
+                        >
+                          View All Benefits
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 ml-1">
+                            <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* CTA Card */}
+                  <div className="mt-auto">
+                    <div className="bg-primary-light/10 p-6 rounded-lg border border-primary-light/20 mt-4">
+                      <h4 className="text-lg font-medium text-text-on-dark mb-2">Ready to get started?</h4>
+                      <p className="text-text-muted mb-4">Contact us today for a consultation about your project needs.</p>
+                      <a 
+                        href="#contact" 
+                        onClick={onClose}
+                        className="btn btn-primary w-full flex items-center justify-center"
                       >
-                        {tech}
-                      </span>
-                    ))}
+                        Request a Quote
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                          <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
           
-          {/* Right column */}
-          <div>
-            {/* Our Process */}
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                    <path fillRule="evenodd" d="M2 4.25A2.25 2.25 0 0 1 4.25 2h11.5A2.25 2.25 0 0 1 18 4.25v8.5A2.25 2.25 0 0 1 15.75 15h-3.105a3.501 3.501 0 0 0 1.1 1.677A.75.75 0 0 1 13.26 18H6.74a.75.75 0 0 1-.484-1.323A3.501 3.501 0 0 0 7.355 15H4.25A2.25 2.25 0 0 1 2 12.75v-8.5Zm1.5 0a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75v-7.5Z" clipRule="evenodd" />
-                  </svg>
-                </span>
-                Our Process
-              </h3>
-              <div className="space-y-6 relative">
-                {/* Vertical timeline line */}
-                <div className="absolute left-3.5 top-0 bottom-0 w-0.5 bg-slate-700 z-0"></div>
-                
-                {service.process.map((step, index) => (
-                  <div key={index} className="flex relative z-10">
-                    <div className="bg-indigo-500 rounded-full w-7 h-7 flex items-center justify-center text-white text-sm font-medium">
-                      {index + 1}
-                    </div>
-                    <div className="ml-4 bg-slate-700/30 rounded-lg p-4 flex-1">
-                      <h4 className="text-white font-medium mb-1">{step.title}</h4>
-                      <p className="text-gray-300 text-sm">{step.description}</p>
+          {/* Benefits Tab */}
+          {activeTab === 'benefits' && (
+            <div className="max-w-5xl mx-auto">
+              <h3 className="text-2xl font-semibold text-text-on-dark mb-6">Key Benefits</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {service.benefits.map((benefit, index) => (
+                  <div key={index} className="bg-background-dark card hover:border-primary-light/30">
+                    <div className="p-6">
+                      <div className="bg-primary-light rounded-lg w-12 h-12 flex items-center justify-center text-primary mb-4">
+                        {benefit.icon || (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <h4 className="text-text-on-dark text-xl font-medium mb-3">{benefit.title}</h4>
+                      <p className="text-text-muted">{benefit.description}</p>
                     </div>
                   </div>
                 ))}
               </div>
+              
+              <div className="text-center mt-10">
+                <a 
+                  href="#contact" 
+                  onClick={onClose}
+                  className="btn btn-primary inline-flex items-center"
+                >
+                  Discuss Your Project
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                  </svg>
+                </a>
+              </div>
             </div>
-            
-            {/* Case Studies if available */}
-            {service.caseStudies && service.caseStudies.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                      <path d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z" />
+          )}
+          
+          {/* Process Tab */}
+          {activeTab === 'process' && (
+            <div className="max-w-5xl mx-auto">
+              <h3 className="text-2xl font-semibold text-text-on-dark mb-6">Our Process</h3>
+              <div className="relative">
+                {/* Vertical timeline line (desktop) */}
+                <div className="absolute left-[42px] top-0 bottom-0 w-1 bg-primary-light/30 z-0 hidden md:block"></div>
+                
+                {/* Horizontal timeline line (mobile) */}
+                <div className="absolute left-0 top-[42px] right-0 h-1 bg-primary-light/30 z-0 md:hidden"></div>
+                
+                <div className="flex flex-col md:flex-row gap-6 relative z-10">
+                  {service.process.map((step, index) => (
+                    <div 
+                      key={index} 
+                      className="flex md:flex-col items-start md:items-center relative flex-1"
+                    >
+                      <div className="bg-primary rounded-full w-16 h-16 flex items-center justify-center text-text-on-dark text-xl font-bold shrink-0 z-10">
+                        {index + 1}
+                      </div>
+                      
+                      <div className="ml-4 md:ml-0 md:mt-4 md:text-center">
+                        <h4 className="text-text-on-dark font-medium text-lg mb-2">{step.title}</h4>
+                        <p className="text-text-muted">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="mt-12 p-6 rounded-lg bg-accent-gradient text-text-on-dark text-center">
+                <h4 className="text-xl font-medium mb-3">Ready to get started?</h4>
+                <p className="mb-4">Let's work together to bring your vision to life.</p>
+                <a 
+                  href="#contact" 
+                  onClick={onClose}
+                  className="btn inline-flex items-center bg-white text-primary hover:bg-white/90"
+                >
+                  Start Your Project
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          )}
+          
+          {/* Technologies Tab */}
+          {activeTab === 'tech' && service.technologies && (
+            <div className="max-w-5xl mx-auto">
+              <h3 className="text-2xl font-semibold text-text-on-dark mb-6">Technologies We Use</h3>
+              
+              <div className="bg-background-dark rounded-lg p-8 border border-border-light mb-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {service.technologies.map((tech, index) => (
+                    <div 
+                      key={index} 
+                      className="bg-primary-light/10 hover:bg-primary-light/20 border border-primary-light/20 rounded-lg p-4 text-center transition-colors"
+                    >
+                      <div className="text-primary text-3xl mb-2 opacity-80">
+                        {/* This would ideally be replaced with actual tech icons */}
+                        <span>{tech.charAt(0)}</span>
+                      </div>
+                      <span className="text-text-on-dark">{tech}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-primary-light/10 rounded-lg p-6 border border-primary-light/20">
+                <h4 className="text-xl text-text-on-dark font-medium mb-3">Why Our Technology Stack Matters</h4>
+                <p className="text-text-muted mb-4">
+                  We carefully select technologies that offer the best balance of performance, scalability, and maintainability. 
+                  Our stack is continuously evaluated to ensure we're using the most effective tools for your specific needs.
+                </p>
+                <div className="flex justify-end">
+                  <a 
+                    href="#contact" 
+                    onClick={onClose}
+                    className="btn btn-primary inline-flex items-center"
+                  >
+                    Discuss Tech Requirements
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                      <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
                     </svg>
-                  </span>
-                  Case Studies
-                </h3>
-                <div className="space-y-4">
-                  {service.caseStudies.map((study, index) => (
-                    <div key={index} className="bg-slate-700/30 rounded-lg p-4 shadow-inner">
-                      <h4 className="text-white font-medium mb-2">{study.title}</h4>
-                      <p className="text-gray-300 text-sm mb-3">{study.description}</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Case Studies Tab */}
+          {activeTab === 'cases' && service.caseStudies && (
+            <div className="max-w-5xl mx-auto">
+              <h3 className="text-2xl font-semibold text-text-on-dark mb-6">Success Stories</h3>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {service.caseStudies.map((study, index) => (
+                  <div key={index} className="card hover:border-primary">
+                    <div className="h-40 bg-accent-gradient rounded-t-lg flex items-center justify-center text-text-on-dark">
+                      <span className="text-2xl font-bold opacity-60">Case Study {index + 1}</span>
+                    </div>
+                    <div className="p-6">
+                      <h4 className="text-xl text-text-on-dark font-medium mb-3">{study.title}</h4>
+                      <p className="text-text-muted mb-4">{study.description}</p>
                       {study.link && (
                         <a 
                           href={study.link} 
-                          className="text-indigo-400 text-sm inline-flex items-center hover:text-indigo-300 transition-colors"
+                          className="text-primary inline-flex items-center hover:text-primary-hover transition-colors"
                         >
-                          Read Case Study
+                          Read Full Case Study
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 ml-1">
                             <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
                           </svg>
                         </a>
                       )}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            )}
-            
-            {/* FAQ if available */}
-            {service.faq && service.faq.length > 0 && (
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                  <span className="bg-indigo-500/20 p-1 rounded mr-2 text-indigo-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.06-1.06 3 3 0 0 1 4.24 0 .75.75 0 0 1-1.06 1.06 1.5 1.5 0 0 0-2.12 0ZM12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                  Frequently Asked Questions
-                </h3>
-                <div className="space-y-4">
-                  {service.faq.map((item, index) => (
-                    <div key={index} className="bg-slate-700/30 rounded-lg p-4 border-l-2 border-indigo-500/50">
-                      <h4 className="text-white font-medium mb-2">{item.question}</h4>
-                      <p className="text-gray-300 text-sm">{item.answer}</p>
-                    </div>
-                  ))}
-                </div>
+              
+              <div className="text-center mt-10">
+                <a 
+                  href="#contact" 
+                  onClick={onClose}
+                  className="btn btn-primary inline-flex items-center"
+                >
+                  Become Our Next Success Story
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                  </svg>
+                </a>
               </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Call to Action */}
-        <div className="mt-10 text-center">
-          <a 
-            href="#contact" 
-            onClick={onClose}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-lg inline-flex items-center transition-colors duration-300"
-          >
-            <span>Get Started with {service.title}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
-              <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
-            </svg>
-          </a>
+            </div>
+          )}
+          
+          {/* FAQ Tab */}
+          {activeTab === 'faq' && service.faq && (
+            <div className="max-w-5xl mx-auto">
+              <h3 className="text-2xl font-semibold text-text-on-dark mb-6">Frequently Asked Questions</h3>
+              
+              <div className="space-y-4 mb-10">
+                {service.faq.map((item, index) => (
+                  <div 
+                    key={index} 
+                    className="bg-background-dark p-6 rounded-lg border border-border-light hover:border-primary-light/30 transition-colors"
+                  >
+                    <h4 className="text-lg text-text-on-dark font-medium mb-3 flex items-start">
+                      <span className="text-primary mr-2">Q:</span>
+                      {item.question}
+                    </h4>
+                    <p className="text-text-muted pl-6">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="bg-primary-light/10 rounded-lg p-6 border border-primary-light/20 text-center">
+                <h4 className="text-xl text-text-on-dark font-medium mb-2">Have More Questions?</h4>
+                <p className="text-text-muted mb-4">We're happy to discuss your specific requirements and answer any questions you might have.</p>
+                <a 
+                  href="#contact" 
+                  onClick={onClose}
+                  className="btn btn-primary inline-flex items-center"
+                >
+                  Contact Us
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
+                    <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Modal>
