@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { features } from '@/data/features';
+import { Feature } from '@/types/types';
+import { dataManager } from '@/utils/dataManager';
 
 const FeatureTabPanel = ({ active, id, children }: { active: boolean, id: string, children: React.ReactNode }) => {
   return (
@@ -22,7 +23,7 @@ const FeatureTabPanel = ({ active, id, children }: { active: boolean, id: string
 }
 
 // Helper component to render feature visualizations based on feature type
-const FeatureVisualization = ({ feature }: { feature: typeof features[0] }) => {
+const FeatureVisualization = ({ feature }: { feature: Feature }) => {
   switch (feature.type) {
     case 'performance':
       return (
@@ -156,9 +157,21 @@ const FeatureVisualization = ({ feature }: { feature: typeof features[0] }) => {
 };
 
 const FeaturesSection = () => {
-  const [activeTab, setActiveTab] = useState('performance');
+  const [activeTab, setActiveTab] = useState('');
+  const [features, setFeatures] = useState<Feature[]>([]);
   const tabLineRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+  // Load features data from dataManager
+  useEffect(() => {
+    const loadedFeatures = dataManager.getAll<Feature>('features');
+    setFeatures(loadedFeatures);
+    
+    // Set active tab to the first feature's id if available
+    if (loadedFeatures.length > 0 && !activeTab) {
+      setActiveTab(loadedFeatures[0].id);
+    }
+  }, []);
 
   const updateTabLine = () => {
     if (!tabLineRef.current || !tabsRef.current[activeTab]) return;
@@ -180,6 +193,34 @@ const FeaturesSection = () => {
       window.removeEventListener('resize', handleResize);
     }
   }, [activeTab]);
+
+  // If features are still loading or empty, show a simple loading state
+  if (features.length === 0) {
+    return (
+      <section 
+        id="technology" 
+        style={{
+          backgroundColor: 'var(--dark-surface)',
+          paddingTop: 'var(--section-spacing-y)',
+          paddingBottom: 'var(--section-spacing-y)'
+        }}
+      >
+        <div className="container mx-auto px-4" style={{ maxWidth: 'var(--content-max-width)' }}>
+          <div className="text-center">
+            <h2 
+              className="text-3xl md:text-4xl font-bold mb-4"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Key Features
+            </h2>
+            <div className="flex justify-center mt-8">
+              <div className="h-8 w-8 rounded-full border-t-2 border-b-2 border-indigo-600 animate-spin"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section 
